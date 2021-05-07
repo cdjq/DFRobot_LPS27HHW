@@ -7,7 +7,7 @@ float DFRobot_LPS27HHW::getPressureData_hPA()
   if(reg.status.p_da){
     uint8_t buff[3]={0};
     readReg(LPS27HHW_PRESS_OUT_XL, buff, 3);
-    uint32_t Pressure32 = (uint32_t)buff[0] + (uint32_t)(buff[1] << 8) + (uint32_t)(buff[2] << 16);
+    uint32_t Pressure32 = (uint32_t)buff[0] | ((uint32_t)buff[1] << 8) | ((uint32_t)buff[2] << 16);
     return (Pressure32 / RESOLUTION_PRESSURE);
   }else
   {
@@ -23,7 +23,7 @@ float DFRobot_LPS27HHW::getTemperature_C()
   {
     uint8_t buff[2]={0};
     readReg(LPS27HHW_TEMP_OUT_L, buff, 2);
-    uint16_t Temperature16 =buff[0] + (buff[1] << 8);
+    uint16_t Temperature16 = (uint16_t)buff[0] + ((uint16_t)buff[1] << 8);
     return (Temperature16 / RESOLUTION_TEMPERATURE);
   }else
   {
@@ -31,17 +31,13 @@ float DFRobot_LPS27HHW::getTemperature_C()
   }
 }
 
-void DFRobot_LPS27HHW::setReset(uint8_t val)
+bool DFRobot_LPS27HHW::setReset()
 {
+  uint8_t val = PROPERTY_ENABLE;
   sLps27hhwCtrlReg2_t reg;
   readReg(LPS27HHW_CTRL_REG2, (uint8_t *)&reg, 1);
   reg.swreset = val;
   writeReg(LPS27HHW_CTRL_REG2, (uint8_t *)&reg, 1);
-}
-
-uint8_t DFRobot_LPS27HHW::getReset()
-{
-  sLps27hhwCtrlReg2_t reg;
   readReg(LPS27HHW_CTRL_REG2, (uint8_t *)&reg, 1);
   return reg.swreset;
 }
@@ -156,7 +152,7 @@ float DFRobot_LPS27HHW::getFifoPressure_hPA()
 {
   uint8_t buff[3];
   readReg(LPS27HHW_FIFO_DATA_OUT_PRESS_XL, buff, 3);
-  uint32_t Pressure32 = buff[0] + (buff[1] << 8) + (buff[2] << 16);
+  uint32_t Pressure32 = (uint32_t)buff[0] + ((uint32_t)buff[1] << 8) + ((uint32_t)buff[2] << 16);
   return (Pressure32 / RESOLUTION_PRESSURE);
 }
 
@@ -164,7 +160,7 @@ float DFRobot_LPS27HHW::getFifoTemperature_C()
 {
   uint8_t buff[2];
   readReg(LPS27HHW_FIFO_DATA_OUT_TEMP_L, buff, 2);
-  uint16_t Temperature16 = buff[0] + (buff[1] << 8);
+  uint16_t Temperature16 = (uint16_t)buff[0] + ((uint16_t)buff[1] << 8);
   return (Temperature16 / RESOLUTION_TEMPERATURE);
 }
 
@@ -230,6 +226,11 @@ void DFRobot_LPS27HHW::setInterupt(uint16_t threshold, eLps27hhwPe_t trigger_mod
 void DFRobot_LPS27HHW::cfgGainDataByFifo()
 {
   setFifoMode(LPS27HHW_FIFO_MODE);
+}
+
+float DFRobot_LPS27HHW::calAltitude(float seaLevelPressure, float pressure)
+{
+  return (44330 * (1.0 - pow(pressure / seaLevelPressure, 0.1903)));
 }
 
 //iic通信
@@ -302,7 +303,6 @@ int8_t DFRobot_LPS27HHW_SPI::begin(void)
   digitalWrite(_csPin, 1);
   this->_pSpi->begin();
   readReg(LPS27HHW_CHIP_ID_ADDR, &dummy_read, 1);
-  DBG(dummy_read);
   if (dummy_read != 0xB3)
   {
     return -1;

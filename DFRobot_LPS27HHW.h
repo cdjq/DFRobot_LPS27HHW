@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <SPI.h>
 #include <Wire.h>
+#include "math.h"
 
 #define ENABLE_DBG // Open this macro to see the program running in detail
 
@@ -57,6 +58,8 @@
 
 #define LPS27HHW_THS_P_L 0x0C
 #define LPS27HHW_THS_P_H 0x0D
+
+#define SEA_LEVEL_PRESSURE 1015.0
 
 class DFRobot_LPS27HHW
 {
@@ -238,15 +241,7 @@ class DFRobot_LPS27HHW
  *  @return PROPERTY_DISABLE 0
  *          PROPERTY_ENABLE 1
  */
-    void setReset(uint8_t val);
-
-/*!
- *  @brief 获取此时传感器是否正常进行了软件复位
- *  @param  NULL
- *  @return 0:没有成功复位
- *          1:已成功复位
- */
-    uint8_t getReset();
+    bool setReset();
 
 /*!
  *  @brief The BDU bit is used to inhibit the update of the output registers 
@@ -261,9 +256,9 @@ class DFRobot_LPS27HHW
  *          PROPERTY_ENABLE 1
  *  @return NULL
  */
-    void setBlockDataUpdate(uint8_t val);
+    void setBlockDataUpdate(uint8_t val = PROPERTY_ENABLE);
 
-/*!
+    /*!
  *  @brief When the ODR bits are set to a value different than '000', the device
  *         is in Continuous mode and automatically acquires a set of data (pressure 
  *         and temperature) at the frequency selected through the ODR[2:0] bits.
@@ -274,12 +269,17 @@ class DFRobot_LPS27HHW
  *          LPS27HHW_50_Hz 
  *          LPS27HHW_75_Hz 
  *          LPS27HHW_100_Hz
- *          LPS27HHW_200_Hz    
+ *          LPS27HHW_200_Hz   
+ *          LPS27HHW_1_Hz_LOW_NOISE 
+ *          LPS27HHW_10_Hz_LOW_NOISE
+ *          LPS27HHW_25_Hz_LOW_NOISE
+ *          LPS27HHW_50_Hz_LOW_NOISE
+ *          LPS27HHW_75_Hz_LOW_NOISE
  *  @return NULL
  */
-    void setDataRate(eLps27hhwOdr_t val);
+    void setDataRate(eLps27hhwOdr_t val = LPS27HHW_75_Hz_LOW_NOISE);
 
-/*!
+    /*!
  *  @brief 获取此时的气压值，单位为hPA
  *  @param  NULL
  *  @return 返回此时气压值，以浮点数输出
@@ -436,6 +436,14 @@ class DFRobot_LPS27HHW
 * @retval  NULL
 */
     void cfgGainDataByFifo();
+
+/**
+* @brief  获取此处的海拔高度
+* @param  seaLevelPressure:海平面气压
+*         pressure :当前气压值
+* @retval  此处海拔高度
+*/
+    float calAltitude(float seaLevelPressure, float pressure);
 
   protected:
     virtual void writeReg(uint8_t Reg, uint8_t *Data, uint8_t len)=0;

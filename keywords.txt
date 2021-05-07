@@ -32,7 +32,8 @@ getIntOnThreshold	KEYWORD2
 setIntTreshold	KEYWORD2
 setInterupt	KEYWORD2
 cfgGainDataByFifo	KEYWORD2
-
+setReset KEYWORD2
+calAltitude KEYWORD2
 #######################################
 # Constants (LITERAL1)
 #######################################
@@ -44,7 +45,7 @@ DFRobot_LPS27HHW_SPI	KEYWORD1
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
-
+SEA_LEVEL_PRESSURE LITERAL1
 LPS27HHW_CHIP_ID_ADDR 	LITERAL1
 LPS27HHW_ID 	LITERAL1
 LPS27HHW_I2C_ADD_H 	LITERAL1
