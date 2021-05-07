@@ -49,7 +49,7 @@ void setup() {
   while(1)
   {
     /**
-     *传感器初始化，用作初始化串口或者初始化IIC，由此时使用的通信方式来决定
+     *传感器初始化，用作初始化SPI或者初始化I2C，由此时使用的通信方式来决定
      */    
     uint8_t status = LPS27HHW.begin();
     if(status == 0)
@@ -74,14 +74,8 @@ void setup() {
   Serial.println("reset success!");
 
   /*!
-   * @brief  为了保证fifo中一直有数据，需要把传感器的
-   *         持续更新打开
-   */
-  LPS27HHW.setBlockDataUpdate();
-
-  /*!
-   * @brief  设置传感器以设置的频率的进行气压值采集并且存入
-   *         指定寄存器
+   * @brief  设置传感器以设置的频率的进行气压值采集
+   *         默认使用 LPS27HHW_75_Hz_LOW_NOISE
    * @param 
    *         LPS27HHW_POWER_DOWN
    *         LPS27HHW_1_Hz  
@@ -108,7 +102,7 @@ void setup() {
 void loop() {
   float press = LPS27HHW.getFifoPressure_hPA();
   float temp = LPS27HHW.getFifoTemperature_C();
-  float alti = LPS27HHW.calAltitude(SEA_LEVEL_PRESSURE, press);
+  float alti = LPS27HHW.calAltitude(press);
 
   Serial.println("===================");
   Serial.print("Pressure : ");
@@ -119,7 +113,7 @@ void loop() {
   Serial.print(temp);
   Serial.println(" ℃");
 
-  Serial.print("Temperature : ");
+  Serial.print("Altitude : ");
   Serial.print(alti);
   Serial.println(" m");
 

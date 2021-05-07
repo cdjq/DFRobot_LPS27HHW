@@ -256,7 +256,7 @@ class DFRobot_LPS27HHW
  *          PROPERTY_ENABLE 1
  *  @return NULL
  */
-    void setBlockDataUpdate(uint8_t val = PROPERTY_ENABLE);
+    void closeBlockDataUpdate(uint8_t val = PROPERTY_ENABLE);
 
     /*!
  *  @brief When the ODR bits are set to a value different than '000', the device
@@ -439,11 +439,10 @@ class DFRobot_LPS27HHW
 
 /**
 * @brief  获取此处的海拔高度
-* @param  seaLevelPressure:海平面气压
 *         pressure :当前气压值
 * @retval  此处海拔高度
 */
-    float calAltitude(float seaLevelPressure, float pressure);
+    float calAltitude(float pressure);
 
   protected:
     virtual void writeReg(uint8_t Reg, uint8_t *Data, uint8_t len)=0;

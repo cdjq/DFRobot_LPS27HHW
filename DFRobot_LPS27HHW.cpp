@@ -42,7 +42,7 @@ bool DFRobot_LPS27HHW::setReset()
   return reg.swreset;
 }
 
-void DFRobot_LPS27HHW::setBlockDataUpdate(uint8_t val)
+void DFRobot_LPS27HHW::closeBlockDataUpdate(uint8_t val)
 {
   sLps27hhwCtrlReg1_t reg;
   readReg(LPS27HHW_CTRL_REG1, (uint8_t *)&reg, 1);
@@ -228,9 +228,9 @@ void DFRobot_LPS27HHW::cfgGainDataByFifo()
   setFifoMode(LPS27HHW_FIFO_MODE);
 }
 
-float DFRobot_LPS27HHW::calAltitude(float seaLevelPressure, float pressure)
+float DFRobot_LPS27HHW::calAltitude(float pressure)
 {
-  return (44330 * (1.0 - pow(pressure / seaLevelPressure, 0.1903)));
+  return (44330 * (1.0 - pow(pressure / SEA_LEVEL_PRESSURE, 0.1903)));
 }
 
 //iic通信
