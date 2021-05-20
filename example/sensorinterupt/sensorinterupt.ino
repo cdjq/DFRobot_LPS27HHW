@@ -1,16 +1,13 @@
 /*!
   * @file  sensorinterupt.ino
-  * @brief 先设置传感器产生中断的条件：阈值和触发方式，并将传感器的
-  *        int中断引脚与MCU的中断引脚连接在一起，当此时环境中的气压
-  *        达到条件的时候，MCU会产生中断并且打印此时的气压和温度值
-  * @n     实验现象 传感器的配置信息打印在串口上,自测信息打印在串口上
+  * @brief 先设置传感器产生中断的条件：阈值和触发方式
   * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
   * @licence     The MIT License (MIT)
   * @author      PengKaixing(kaixing.peng@dfrobot.com)
   * @version     V0.1
   * @date        2021-04-28
   * @get         from https://www.dfrobot.com
-  * @url         https://github.com/dfrobot/DFRobot_BMM150
+  * @url         https://github.com/dfrobot/DFRobot_LPS27HHW
   */
 #include "DFRobot_LPS27HHW.h"
 /*!
@@ -121,14 +118,7 @@ void setup() {
    */
   LPS27HHW.setDataRate();
 
-  /*!
-   * @brief  设置传感器产生中断的条件： 
-   *         LPS27HHW_NO_THRESHOLD 
-   *         LPS27HHW_POSITIVE     
-   *         LPS27HHW_NEGATIVE     
-   *         LPS27HHW_BOTH    
-   */
-  LPS27HHW.setInterupt(/*阈值/hPA*/500,LPS27HHW.LPS27HHW_POSITIVE);
+  LPS27HHW.setInterupt(/*阈值/hPA*/500);
 
   /*！
    * 配置MCU中断
@@ -139,28 +129,8 @@ void setup() {
 
 void loop() {
   if(intflag)
-  {
-    float press = LPS27HHW.getPressureData_hPA();
-    float temp = LPS27HHW.getTemperature_C();
-    float alti = LPS27HHW.calAltitude(press);
-
-    Serial.println("===================");
-    Serial.print("Pressure : ");
-    Serial.print(press);
-    Serial.println(" hPA");
-
-    Serial.print("Temperature : ");
-    Serial.print(temp);
-    Serial.println(" ℃");
-
-    Serial.print("Altitude : ");
-    Serial.print(alti);
-    Serial.println(" m");
-
-    Serial.println("===================");
-    Serial.println("");
-  }
+    Serial.println("The pressure is above the threshold!");
   else
-    Serial.println("No interruptions occur!");
+    Serial.println("The pressure is below the threshold!");
   delay(1000);
 }

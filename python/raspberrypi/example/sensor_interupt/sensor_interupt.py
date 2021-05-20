@@ -63,26 +63,15 @@ def setup():
   lps27hhw.set_block_data_update()
   print "close success!"
      
-  '''
-   * @brief  设置传感器产生中断的条件： 
-   *         LPS27HHW_NO_THRESHOLD 
-   *         LPS27HHW_POSITIVE     
-   *         LPS27HHW_NEGATIVE     
-   *         LPS27HHW_BOTH    
-   *'''
-  lps27hhw.set_interupt(500,LPS27HHW_POSITIVE)
+  lps27hhw.set_interupt(500)
   print "set interupt success!"
 
 def loop():
-  press = lps27hhw.get_pressure_data_hPA()
-  temp  = lps27hhw.get_temperature_C()
-  alti = lps27hhw.cal_altitude(SEA_LEVEL_PRESSURE, press)
-  print "==================="
-  print "Pressure : " + str(press) + " hPA"
-  print "Temperature : " + str(temp) + " C"
-  print "Altitude : " + str(alti) + " m"
-  print("===================")
-  time.sleep(1)  
+  if intflag == 1：
+    print "The pressure is above the threshold!"
+  else
+    print "The pressure is below the threshold!"
+  time.sleep(1)
 
 if __name__ == "__main__":
   setup()

@@ -8,7 +8,7 @@
   * @version     V0.1
   * @date        2021-04-28
   * @get         from https://www.dfrobot.com
-  * @url         https://github.com/dfrobot/DFRobot_BMM150
+  * @url         https://github.com/dfrobot/DFRobot_LPS27HHW
   */
 #include "DFRobot_LPS27HHW.h"
 

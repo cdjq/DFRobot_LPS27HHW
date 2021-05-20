@@ -186,12 +186,12 @@ class dfrobot_lps27hhw(object):
       reg[0] = reg[0] | 0x08
     self.write_reg(LPS27HHW_INTERRUPT_CFG, reg)
 
-  def set_interupt(self, threshold,trigger_mode):
+  def set_interupt(self, threshold):
     reg=[0]*1
     reg[0] = 0x01
     self.set_pin_int_route(reg)
     self.set_int_treshold(threshold * 16)
-    self.set_int_on_threshold(trigger_mode)
+    self.set_int_on_threshold(LPS27HHW_BOTH)
 
   def cal_altitude(self,seaLevelPressure,pressure):
     return round(44330 * (1.0 - pow(pressure / seaLevelPressure, 0.1903)),2)

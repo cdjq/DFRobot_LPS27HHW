@@ -1,3 +1,12 @@
+/*!
+  * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
+  * @licence     The MIT License (MIT)
+  * @author      PengKaixing(kaixing.peng@dfrobot.com)
+  * @version     V0.1
+  * @date        2021-04-28
+  * @get         from https://www.dfrobot.com
+  * @url         https://github.com/dfrobot/DFRobot_LPS27HHW
+  */
 #include "DFRobot_LPS27HHW.h"
 
 float DFRobot_LPS27HHW::getPressureData_hPA()
@@ -95,7 +104,7 @@ uint8_t DFRobot_LPS27HHW::getFifoMode()
 
 void DFRobot_LPS27HHW::setPinIntRoute(sLps27hhwCtrlReg3_t* val)
 {
-  writeReg(LPS27HHW_CTRL_REG3,(uint8_t* )&val, 1);
+  writeReg(LPS27HHW_CTRL_REG3, (uint8_t *)val, 1);
 }
 
 void DFRobot_LPS27HHW::getPinIntRoute(sLps27hhwCtrlReg3_t* reg)
@@ -150,7 +159,7 @@ uint8_t DFRobot_LPS27HHW::getFifoOvrOnInt()
 
 float DFRobot_LPS27HHW::getFifoPressure_hPA()
 {
-  uint8_t buff[3];
+  uint8_t buff[3]={0};
   readReg(LPS27HHW_FIFO_DATA_OUT_PRESS_XL, buff, 3);
   uint32_t Pressure32 = (uint32_t)buff[0] + ((uint32_t)buff[1] << 8) + ((uint32_t)buff[2] << 16);
   return (Pressure32 / RESOLUTION_PRESSURE);
@@ -183,6 +192,7 @@ void DFRobot_LPS27HHW::setIntOnThreshold(eLps27hhwPe_t val)
     reg.diff_en = PROPERTY_ENABLE;
   }
   writeReg(LPS27HHW_INTERRUPT_CFG, (uint8_t *)&reg, 1);
+
 }
 
 uint8_t DFRobot_LPS27HHW::getIntOnThreshold()
@@ -214,13 +224,13 @@ uint16_t DFRobot_LPS27HHW::getIntTreshold()
   return buff;
 }
 
-void DFRobot_LPS27HHW::setInterupt(uint16_t threshold, eLps27hhwPe_t trigger_mode)
+void DFRobot_LPS27HHW::setInterupt(uint16_t threshold)
 {
-  uLps27hhwReg_t reg;
-  reg.ctrl_reg3.int_s = 1;
-  setPinIntRoute(&reg.ctrl_reg3);
+  sLps27hhwCtrlReg3_t reg;
+  reg.int_s = 3;
+  setPinIntRoute(&reg);
   setIntTreshold(threshold * 16);
-  setIntOnThreshold(trigger_mode);
+  setIntOnThreshold(LPS27HHW_BOTH);
 }
 
 void DFRobot_LPS27HHW::cfgGainDataByFifo()

@@ -1,7 +1,7 @@
-# DFRobot_bmm150
-DFRobot's bmm150
+# DFRobot_LPS27HHW
+DFRobot's lps27hhw
 
-## DFRobot_bmm150 Library for Arduino
+## DFRobot_lps27hhw Library for Arduino
 ---------------------------------------------------------
 Arduino library is provided for wireless communication
 
@@ -235,8 +235,12 @@ Download the zip file first to use this library and uncompress it to a folder na
 
 MCU                | Work Well | Work Wrong | Untested  | Remarks
 ------------------ | :----------: | :----------: | :---------: | -----
+Arduino Uno  |      √       |             |            | 
+Leonardo  |      √       |             |            | 
+Meag2560 |      √       |             |            | 
+M0 |      √       |             |            | 
 ESP32 |      √       |             |            | 
-
+ESP8266 |      √       |             |            | 
 ## History
 
 - date 2021-4-29

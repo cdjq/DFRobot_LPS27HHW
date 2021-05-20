@@ -32,7 +32,6 @@ getIntOnThreshold	KEYWORD2
 setIntTreshold	KEYWORD2
 setInterupt	KEYWORD2
 cfgGainDataByFifo	KEYWORD2
-setReset KEYWORD2
 calAltitude KEYWORD2
 #######################################
 # Constants (LITERAL1)

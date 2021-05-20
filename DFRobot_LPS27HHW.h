@@ -1,3 +1,12 @@
+/*!
+  * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
+  * @licence     The MIT License (MIT)
+  * @author      PengKaixing(kaixing.peng@dfrobot.com)
+  * @version     V0.1
+  * @date        2021-04-28
+  * @get         from https://www.dfrobot.com
+  * @url         https://github.com/dfrobot/DFRobot_LPS27HHW
+  */
 #include "Arduino.h"
 #include <stdlib.h>
 #include <SPI.h>
@@ -175,7 +184,7 @@ class DFRobot_LPS27HHW
       uint8_t reset_az : 1;
       uint8_t autozero : 1;
       uint8_t reset_arp : 1;
-      uint8_t autorefp : 1;
+      uint8_t autoreep : 1;
     };
 
 /*
@@ -228,8 +237,8 @@ class DFRobot_LPS27HHW
 
     struct sLps27hhwThsPH_t
     {  
-      uint8_t ths                             : 7;
-      uint8_t not_used_01                     : 1;
+      uint8_t ths         : 7;
+      uint8_t not_used_01 : 1;
     };
 
     DFRobot_LPS27HHW(){};
@@ -242,7 +251,6 @@ class DFRobot_LPS27HHW
  *          PROPERTY_ENABLE 1
  */
     bool setReset();
-
 /*!
  *  @brief The BDU bit is used to inhibit the update of the output registers 
  *         until both upper and lower (and XLOW) register parts are read. In 
@@ -257,8 +265,7 @@ class DFRobot_LPS27HHW
  *  @return NULL
  */
     void closeBlockDataUpdate(uint8_t val = PROPERTY_ENABLE);
-
-    /*!
+/*!
  *  @brief When the ODR bits are set to a value different than '000', the device
  *         is in Continuous mode and automatically acquires a set of data (pressure 
  *         and temperature) at the frequency selected through the ODR[2:0] bits.
@@ -279,7 +286,7 @@ class DFRobot_LPS27HHW
  */
     void setDataRate(eLps27hhwOdr_t val = LPS27HHW_75_Hz_LOW_NOISE);
 
-    /*!
+/*!
  *  @brief 获取此时的气压值，单位为hPA
  *  @param  NULL
  *  @return 返回此时气压值，以浮点数输出
@@ -293,90 +300,6 @@ class DFRobot_LPS27HHW
  */
     float getTemperature_C();
 /**
-  * @brief  Sensing chain FIFO stop values memorization at
-  *         threshold level.[set]
-  * @param  val  change the values of stop_on_wtm in reg FIFO_CTRL
-  * @retval  NULL
-  *
-  */
-    void setFifoStopOnWtm(uint8_t val);
-
-/**
-  * @brief   Sensing chain FIFO stop values memorization at threshold
-  *          level.[get]
-  * @param   NULL
-  * @retval  stop_on_wtm
-  */
-    uint8_t getFifoStopOnWtm();
-
-/**
-  * @brief  Fifo Mode selection.[set]
-  * @param  val change the values of f_mode in reg FIFO_CTRL
-  * @retval NULL
-  */
-    void setFifoMode(eLps27hhwFMode_t val);
-
-/**
-  * @brief  Fifo Mode selection.[get]
-  * @param   NULL
-  * @retval reg.f_mode;
-  */
-    uint8_t getFifoMode();
-
-/**
-  * @brief  Select the signal that need to route on int pad.[set]
-  * @param  val registers CTRL_REG3
-  * @retval NULL
-  */
-    void setPinIntRoute(sLps27hhwCtrlReg3_t *val);
-
-    /**
-  * @brief  Select the signal that need to route on int pad.[get]
-  * @retval sLps27hhwCtrlReg3_t
-  */
-    void getPinIntRoute(sLps27hhwCtrlReg3_t *reg);
-
-    /**
-  * @brief  FIFO full flag on INT_DRDY pin.[set]
-  * @param  uint8_t val: change the values of f_fss5 in reg CTRL_REG3
-  * @retval NULL
-  */
-    void setFifoFullOnInt(uint8_t val);
-
-/**
-  * @brief  FIFO full flag on INT_DRDY pin.[get]
-  * @retval reg.int_f_full;
-  */
-    uint8_t getFifoFullOnInt();
-
-/**
-  * @brief  FIFO watermark status on INT_DRDY pin.[set]
-  * @param  uint8_t val: change the values of f_fth in reg CTRL_REG3
-  * @retval NULL
-  */
-    void setFifoThresholdOnInt(uint8_t val);
-
-/**
-  * @brief  FIFO watermark status on INT_DRDY pin.[get]
-  * @param NULL
-  * @retval  uint8_t: change the values of f_fth in reg CTRL_REG3
-  */
-    uint8_t getFifoThresholdOnInt();
-
-/**
-  * @brief  FIFO overrun interrupt on INT_DRDY pin.[set]
-  * @param  uint8_t val: change the values of f_ovr in reg CTRL_REG3
-  * @retval NULL
-  */
-    void setFifoOvrOnInt(uint8_t val);
-
-/**
-  * @brief  FIFO overrun interrupt on INT_DRDY pin.[get]
-  * @retval reg.int_f_ovr
-  */
-    uint8_t getFifoOvrOnInt();
-
-/**
   * @brief  Temperature output from FIFO value.[get]
   * @retval 传感器气压值
   */
@@ -387,56 +310,17 @@ class DFRobot_LPS27HHW
   * @retval 传感器温度值
   */
     float getFifoTemperature_C();
-
-/**
-  * @brief  FIFO stored data level.[get]
-  * @retval fifo中缓存的数据的个数
-  */
-    uint8_t getFifoDataLevel();
-
-/**
-  * @brief   Enable interrupt generation on pressure low/high event.[set]
-  * @param   val  change the values of pe in reg INTERRUPT_CFG
-  * @retval  NULL
-  */
-    void setIntOnThreshold(eLps27hhwPe_t val);
-
-    /**
-  * @brief  Enable interrupt generation on pressure low/high event.[get]
-  * @retval reg.pe
-  */
-    uint8_t getIntOnThreshold();
-
-/**
-  * @brief  User-defined threshold value for pressure interrupt event.[set]
-  * @param  buff  buffer that contains data to write
-  * @retval NULL
-  */
-    void setIntTreshold(uint16_t buff);
-
 /**
 * @brief   User-defined threshold value for pressure interrupt event.[get]
-* @retval  buff     buffer that stores data read
-*/
-    uint16_t getIntTreshold();
-
-/**
-* @brief   User-defined threshold value for pressure interrupt event.[get]
-* @param   threshold :气压阈值 trigger_mode：
-                      触发方式:  LPS27HHW_NO_THRESHOLD 
-                                 LPS27HHW_POSITIVE     
-                                 LPS27HHW_NEGATIVE     
-                                 LPS27HHW_BOTH         
+* @param   NULL
 * @retval  NULL
 */
-    void setInterupt(uint16_t threshold, eLps27hhwPe_t trigger_mode);
-
+    void setInterupt(uint16_t threshold);
 /**
 * @brief   配置传感器从fifo中获取数据
 * @retval  NULL
 */
     void cfgGainDataByFifo();
-
 /**
 * @brief  获取此处的海拔高度
 *         pressure :当前气压值
@@ -445,6 +329,105 @@ class DFRobot_LPS27HHW
     float calAltitude(float pressure);
 
   protected:
+/**
+  * @brief   User-defined threshold value for pressure interrupt event.[get]
+  * @retval  buff     buffer that stores data read
+  */
+    uint16_t getIntTreshold();
+/**
+  * @brief  User-defined threshold value for pressure interrupt event.[set]
+  * @param  buff  buffer that contains data to write
+  * @retval NULL
+  */
+    void setIntTreshold(uint16_t buff);
+/**
+  * @brief  Enable interrupt generation on pressure low/high event.[get]
+  * @retval reg.pe
+  */
+    uint8_t getIntOnThreshold();
+/**
+  * @brief   Enable interrupt generation on pressure low/high event.[set]
+  * @param   val  change the values of pe in reg INTERRUPT_CFG
+  * @retval  NULL
+  */
+    void setIntOnThreshold(eLps27hhwPe_t val);
+/**
+  * @brief  FIFO stored data level.[get]
+  * @retval fifo中缓存的数据的个数
+  */
+    uint8_t getFifoDataLevel();
+/**
+  * @brief  FIFO overrun interrupt on INT_DRDY pin.[get]
+  * @retval reg.int_f_ovr
+  */
+    uint8_t getFifoOvrOnInt();
+/**
+  * @brief  FIFO overrun interrupt on INT_DRDY pin.[set]
+  * @param  uint8_t val: change the values of f_ovr in reg CTRL_REG3
+  * @retval NULL
+  */
+    void setFifoOvrOnInt(uint8_t val);
+/**
+  * @brief  FIFO watermark status on INT_DRDY pin.[get]
+  * @param NULL
+  * @retval  uint8_t: change the values of f_fth in reg CTRL_REG3
+  */
+    uint8_t getFifoThresholdOnInt();
+/**
+  * @brief  FIFO watermark status on INT_DRDY pin.[set]
+  * @param  uint8_t val: change the values of f_fth in reg CTRL_REG3
+  * @retval NULL
+  */
+    void setFifoThresholdOnInt(uint8_t val);
+/**
+  * @brief  FIFO full flag on INT_DRDY pin.[get]
+  * @retval reg.int_f_full;
+  */
+    uint8_t getFifoFullOnInt();
+/**
+  * @brief  FIFO full flag on INT_DRDY pin.[set]
+  * @param  uint8_t val: change the values of f_fss5 in reg CTRL_REG3
+  * @retval NULL
+  */
+    void setFifoFullOnInt(uint8_t val);
+/**
+  * @brief  Select the signal that need to route on int pad.[get]
+  * @retval sLps27hhwCtrlReg3_t
+  */
+    void getPinIntRoute(sLps27hhwCtrlReg3_t *reg);
+/**
+  * @brief  Select the signal that need to route on int pad.[set]
+  * @param  val registers CTRL_REG3
+  * @retval NULL
+  */
+    void setPinIntRoute(sLps27hhwCtrlReg3_t *val);
+/**
+  * @brief  Fifo Mode selection.[get]
+  * @param   NULL
+  * @retval reg.f_mode;
+  */
+    uint8_t getFifoMode();
+/**
+  * @brief  Fifo Mode selection.[set]
+  * @param  val change the values of f_mode in reg FIFO_CTRL
+  * @retval NULL
+  */
+    void setFifoMode(eLps27hhwFMode_t val);
+/**
+  * @brief   Sensing chain FIFO stop values memorization at threshold
+  *          level.[get]
+  * @param   NULL
+  * @retval  stop_on_wtm
+  */
+    uint8_t getFifoStopOnWtm();
+/**
+  * @brief  Sensing chain FIFO stop values memorization at
+  *         threshold level.[set]
+  * @param  val  change the values of stop_on_wtm in reg FIFO_CTRL
+  * @retval  NULL
+  *
+  */
+    void setFifoStopOnWtm(uint8_t val);
     virtual void writeReg(uint8_t Reg, uint8_t *Data, uint8_t len)=0;
     virtual int16_t readReg(uint8_t Reg, uint8_t *Data, uint8_t len)=0;  
   private:
