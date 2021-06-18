@@ -243,7 +243,7 @@ float DFRobot_LPS27HHW::calAltitude(float pressure)
   return (44330 * (1.0 - pow(pressure / SEA_LEVEL_PRESSURE, 0.1903)));
 }
 
-//iic通信
+//IIC communication
 DFRobot_LPS27HHW_I2C::DFRobot_LPS27HHW_I2C(TwoWire *pWire, uint8_t addr)
 {
   this->_pWire = pWire;
@@ -299,7 +299,7 @@ int16_t DFRobot_LPS27HHW_I2C::readReg(uint8_t Reg, uint8_t *Data, uint8_t len)
   return 0;
 }
 
-//SPI通信
+//SPI communication
 DFRobot_LPS27HHW_SPI::DFRobot_LPS27HHW_SPI(uint8_t csPin, SPIClass *pSpi)
 {
   this->_pSpi = pSpi;
