@@ -99,7 +99,7 @@ class dfrobot_lps27hhw(object):
     else:
       self.__i2c_spi = SPI_MODE
 
-  #传感器初始化，用作初始化串口或者初始化IIC，由此时使用的通信方式来决定
+  #Initialize the sensor, whether be used to initialize serial port or I2C is up to the current communication way.
   def begin(self):
     dummy_read=self.read_reg(LPS27HHW_CHIP_ID_ADDR ,1)
     if dummy_read[0] != 0xB3:
