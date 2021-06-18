@@ -1,10 +1,10 @@
 # -*- coding:utf-8 -*-
 """
   @file sensor_interupt.py
-  @brief ÏÈÉèÖÃ´«¸ĞÆ÷²úÉúÖĞ¶ÏµÄÌõ¼ş£ºãĞÖµºÍ´¥·¢·½Ê½£¬²¢½«´«¸ĞÆ÷µÄ
-  *        intÖĞ¶ÏÒı½ÅÓëMCUµÄÖĞ¶ÏÒı½ÅÁ¬½ÓÔÚÒ»Æğ£¬µ±´ËÊ±»·¾³ÖĞµÄÆøÑ¹
-  *        ´ïµ½Ìõ¼şµÄÊ±ºò£¬MCU»á²úÉúÖĞ¶Ï²¢ÇÒ´òÓ¡´ËÊ±µÄÆøÑ¹ºÍÎÂ¶ÈÖµ
-  * @n     ÊµÑéÏÖÏó ´«¸ĞÆ÷µÄÅäÖÃĞÅÏ¢´òÓ¡ÔÚ´®¿ÚÉÏ,×Ô²âĞÅÏ¢´òÓ¡ÔÚ´®¿ÚÉÏ
+  @brief  First set the conditions for the sensor to generate an interrupt: threshold and trigger mode. Then connect the sensor interrupt pin 
+  *       with the MCU interrupt pin. When the air pressure reaches the condition at this time, the MCU will generate an interrupt
+  *       and print the air pressure and temperature value at this time.
+  * @n     Experiment phenomena: The configuration of the sensor and the self-test information is printed on the serial port.
   @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
   @licence     The MIT License (MIT)
   @author      [PengKaixing](kaixing.peng@dfrobot.com)
@@ -40,7 +40,7 @@ def setup():
   GPIO.add_event_detect(intPin, GPIO.RISING, callback=test_callback, bouncetime=200)
     
   while(1):
-    #´«¸ĞÆ÷³õÊ¼»¯£¬ÓÃ×÷³õÊ¼»¯´®¿Ú»òÕß³õÊ¼»¯IIC£¬ÓÉ´ËÊ±Ê¹ÓÃµÄÍ¨ĞÅ·½Ê½À´¾ö¶¨   
+    #Initialize the sensor, whether be used to initialize serial port or I2C is up to the current communication way.
     status = lps27hhw.begin()
     if status == 0:
       print("sensor inint success !")
@@ -50,15 +50,14 @@ def setup():
       print(status)
       time.sleep(1)
 
-  #´«¸ĞÆ÷Èí¼ş¸´Î»
+  #Sensor software reset
   while(lps27hhw.set_reset()):
     print "Unsuccessful reset!"
     time.sleep(1)
   print "reset success!"
 
   '''
-  * @brief  ÎªÁË±£Ö¤¶ÁÈ¡µÄÆøÑ¹ÖµµÄ×¼È·ĞÔ£¬ĞèÒª°Ñ´«¸ĞÆ÷µÄ
-  *         ³ÖĞø¸üĞÂ¹Ø±Õ
+  * @brief For the accuracy of pressure value, the continuous update of the sensor needs to be disabled.
   '''
   lps27hhw.set_block_data_update()
   print "close success!"
@@ -67,7 +66,7 @@ def setup():
   print "set interupt success!"
 
 def loop():
-  if intflag == 1£º
+  if intflag == 1ï¼š
     print "The pressure is above the threshold!"
   else
     print "The pressure is below the threshold!"
