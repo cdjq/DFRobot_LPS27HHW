@@ -1,7 +1,7 @@
 /*!
   * @file  generalAccess.ino
   * @brief Get the barometric pressure (hPA), temperature (°C) and altitude (m) measured by the sensor.
-  * @n     Experiment phenomena: The configuration of the sensor and the self-test information is printed on the serial port.
+  * @n     Experiment phenomena: The configuration of the sensor and the self-test information will be printed on the serial port.
   * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
   * @licence     The MIT License (MIT)
   * @author      PengKaixing(kaixing.peng@dfrobot.com)
@@ -35,7 +35,7 @@
  */  
 #else
 /*!
- * @brief When using SPI communication, the pin value need to be changed according to different MCUs.
+ * @brief When using SPI communication, the pin value needs to be changed according to different MCUs.
  * This value can be any digital IO port
  * LPS27HHW_CS : D3(ESP32)
  * LPS27HHW_CS : 10(UNO)
