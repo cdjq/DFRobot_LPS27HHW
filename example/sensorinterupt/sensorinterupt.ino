@@ -1,6 +1,6 @@
 /*!
   * @file  sensorinterupt.ino
-  * @brief 先设置传感器产生中断的条件：阈值和触发方式
+  * @brief First set the conditions for the sensor to generate an interrupt: threshold and trigger mode
   * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
   * @licence     The MIT License (MIT)
   * @author      PengKaixing(kaixing.peng@dfrobot.com)
@@ -11,17 +11,17 @@
   */
 #include "DFRobot_LPS27HHW.h"
 /*!
- * @brief 需要根据不同的MCU改成不同的引脚值
+ * @brief The pin value needs to be changed according to different MCU.
  * MCU        |    intPin       
  * UNO        |     2,3
  * Mega2560   | 2, 3, 18, 19, 20, 21
  * Leonardo   | 0, 1, 2, 3, 7
- * ESP32      |  所有数字口
- * ESP8266    |  所有数字口
+ * ESP32      |  All digital ports
+ * ESP8266    |  All digital ports
  */
 #define intPin D2
 
-//默认打开，此时使用IIC通信，屏蔽之后使用SPI通信
+//Enable by default, use IIC communication at this time, use SPI communication after shielding.
 #define I2C_COMMUNICATION
 
 #ifdef  I2C_COMMUNICATION
@@ -38,14 +38,14 @@
 /*!
  * @brief Constructor 
  * @param cs Chip selection pinChip selection pin
- *        spi连接方法
+ *        spi communication method
  *        (SDO<-->MISO)    (SDI<-->MOSI)
- *        (SCK<-->SCK)     (CS<-->CS 可自定义引脚)
+ *        (SCK<-->SCK)     (CS<-->CS Customizable pins)
  */  
 #else
 /*!
- * @brief 在使用SPI通信的时候需要根据不同的MCU改成不同的引脚值
- * 这个值可以是任意一个数字IO口
+ * @brief When using SPI communication, the pin value needs to be changed according to different MCU.
+ * This value can be any digital IO port
  * LPS27HHW_CS : D3(ESP32)
  * LPS27HHW_CS : 10(UNO)
  */
@@ -68,7 +68,7 @@ void setup() {
   while(1)
   {
     /**
-     *传感器初始化，用作初始化SPI或者初始化I2C，由此时使用的通信方式来决定
+     *Iniatialize the sensor, whether be used to initialize SPI or I2C is up to the current communication way.
      */    
     uint8_t status = LPS27HHW.begin();
     if(status == 0)
@@ -83,7 +83,7 @@ void setup() {
     }
   }
   /**
-    *传感器软件复位
+    *Sensor software reset
     */  
   while (LPS27HHW.setReset())
   {
@@ -93,14 +93,13 @@ void setup() {
   Serial.println("reset success!");
 
   /*!
-   * @brief  为了保证读取的气压值的准确性，需要把传感器的
-   *         持续更新关闭
+   * @brief  For the accuracy of the pressure value, the continuous update of the sensor needs to be turned off.
    */
   LPS27HHW.closeBlockDataUpdate();
 
   /*!
-   * @brief  设置传感器以设置的频率的进行气压值采集
-   *         默认使用 LPS27HHW_75_Hz_LOW_NOISE
+   * @brief  Set the sensor to collect the pressure value at the frequency we set before
+   *         Use LPS27HHW_75_Hz_LOW_NOISE by default
    * @param 
    *         LPS27HHW_POWER_DOWN
    *         LPS27HHW_1_Hz  
@@ -121,7 +120,7 @@ void setup() {
   LPS27HHW.setInterupt(/*阈值/hPA*/500);
 
   /*！
-   * 配置MCU中断
+   * Configure MCU interrupt
    */
   pinMode(intPin,INPUT);
   attachInterrupt(digitalPinToInterrupt(intPin), funcCallback, CHANGE);
