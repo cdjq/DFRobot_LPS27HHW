@@ -1,7 +1,7 @@
 /*!
   * @file  generalAccess.ino
-  * @brief 获取传感器获取的气压值（hPA）和温度值（℃）以及海拔值（m）
-  * @n     实验现象 传感器的配置信息打印在串口上,自测信息打印在串口上
+  * @brief Get the barometric pressure (hPA), temperature (°C) and altitude (m) measured by the sensor.
+  * @n     Experiment phenomena: The configuration of the sensor and the self-test information is printed on the serial port.
   * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
   * @licence     The MIT License (MIT)
   * @author      PengKaixing(kaixing.peng@dfrobot.com)
@@ -12,7 +12,7 @@
   */
 #include "DFRobot_LPS27HHW.h"
 
-//默认打开，此时使用IIC通信，屏蔽之后使用SPI通信
+//Enable by default, use IIC communication at this time, use SPI communication after shielding it.
 #define I2C_COMMUNICATION
 
 #ifdef  I2C_COMMUNICATION
@@ -29,14 +29,14 @@
 /*!
  * @brief Constructor 
  * @param cs Chip selection pinChip selection pin
- *        spi连接方法
+ *        spi connection method
  *        (SDO<-->MISO)    (SDI<-->MOSI)
- *        (SCK<-->SCK)     (CS<-->CS 可自定义引脚)
+ *        (SCK<-->SCK)     (CS<-->CS Customizable pins)
  */  
 #else
 /*!
- * @brief 在使用SPI通信的时候需要根据不同的MCU改成不同的引脚值
- * 这个值可以是任意一个数字IO口
+ * @brief When using SPI communication, the pin value need to be changed according to different MCUs.
+ * This value can be any digital IO port
  * LPS27HHW_CS : D3(ESP32)
  * LPS27HHW_CS : 10(UNO)
  */
@@ -49,7 +49,7 @@ void setup() {
   while(1)
   {
     /**
-     *传感器初始化，用作初始化SPI或者初始化I2C，由此时使用的通信方式来决定
+     *Iniatialize the sensor, whether be used to initialize SPI or I2C is up to the current communication way.
      */    
     uint8_t status = LPS27HHW.begin();
     if(status == 0)
@@ -64,7 +64,7 @@ void setup() {
   }
 
   /**
-    *传感器软件复位
+    *Sensor software reset
     */  
   while (LPS27HHW.setReset())
   {
@@ -74,8 +74,8 @@ void setup() {
   Serial.println("reset success!");
 
   /*!
-   * @brief  设置传感器以设置的频率的进行气压值采集
-   *         默认使用 LPS27HHW_75_Hz_LOW_NOISE
+   * @brief  Set the sensor to collect the pressure value at the frequency we set before
+   *         Use LPS27HHW_75_Hz_LOW_NOISE by default
    * @param 
    *         LPS27HHW_POWER_DOWN
    *         LPS27HHW_1_Hz  
