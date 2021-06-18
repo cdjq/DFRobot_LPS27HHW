@@ -22,7 +22,7 @@ lps27hhw = dfrobot_lps27hhw_SPI (27)                # default use spi0 ,cs pin i
 
 def setup():
   while(1):
-    #传感器初始化，用作初始化串口或者初始化IIC，由此时使用的通信方式来决定   
+    #Iniatialize the sensor, whether be used to initialize serial port or IIC is up to the current communication way.
     status = lps27hhw.begin()
     if status == 0:
       print("sensor inint success !")
@@ -32,21 +32,19 @@ def setup():
       print(status)
       time.sleep(1)
 
-  #传感器软件复位
+  #Sensor software reset
   while(lps27hhw.set_reset()):
     print "Unsuccessful reset!"
     time.sleep(1)
   print "reset success!"
       
   '''
-  * @brief  为了保证读取的气压值的准确性，需要把传感器的
-  *         持续更新关闭
+  * @brief  For the accuracy of pressure value, the continuous update of the sensor needs to be turned off
   '''
   lps27hhw.set_block_data_update()
   
   '''
-   * @brief  设置传感器以设置的频率的进行气压值采集并且存入
-   *         指定寄存器
+   * @brief  Set the sensor to collect the pressure value at the frequency we set and store it in the specified register
    * @param 
             LPS27HHW_POWER_DOWN          
             LPS27HHW_ONE_SHOOT           
