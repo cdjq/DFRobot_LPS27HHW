@@ -34,10 +34,10 @@ Download the zip file first to use this library and uncompress it to a folder na
     void setReset(uint8_t val);
 
 /*!
- *  @brief 获取此时传感器是否正常进行了软件复位
+ *  @brief Get whether the sensor has reset software normally now
  *  @param  NULL
- *  @return 0:没有成功复位
- *          1:已成功复位
+ *  @return 0: Not reset successfully
+ *          1: Reset successfully
  */
     uint8_t getReset();
 
@@ -73,16 +73,16 @@ Download the zip file first to use this library and uncompress it to a folder na
     void setDataRate(eLps27hhwOdr_t val);
 
 /*!
- *  @brief 获取此时的气压值，单位为hPA
+ *  @brief Get current pressure, unit: hPA
  *  @param  NULL
- *  @return 返回此时气压值，以浮点数输出
+ *  @return Return current pressure,output it as a floating point number
  */
     float getPressureData_hPA();
 
 /*!
- *  @brief 获取此时的温度值，单位为摄氏度
+ *  @brief Get current temperature, unit: °C
  *  @param  NULL
- *  @return 返回此时温度值，以浮点数输出
+ *  @return Return current temperature,output it as a floating point number
  */
     float getTemperature_C();
 /**
@@ -171,19 +171,19 @@ Download the zip file first to use this library and uncompress it to a folder na
 
 /**
   * @brief  Temperature output from FIFO value.[get]
-  * @retval 传感器气压值
+  * @retval Sensor pressure
   */
     float getFifoPressure_hPA();
 
 /**
   * @brief  Temperature output from FIFO value.[get]
-  * @retval 传感器温度值
+  * @retval Sensor temperature 
   */
     float getFifoTemperature_C();
 
 /**
   * @brief  FIFO stored data level.[get]
-  * @retval fifo中缓存的数据的个数
+  * @retval The number of data cached in fifo
   */
     uint8_t getFifoDataLevel();
 
@@ -215,17 +215,17 @@ Download the zip file first to use this library and uncompress it to a folder na
 
 /**
 * @brief   User-defined threshold value for pressure interrupt event.[get]
-* @param   threshold :气压阈值 trigger_mode：
-                      触发方式:  LPS27HHW_NO_THRESHOLD 
-                                 LPS27HHW_POSITIVE     
-                                 LPS27HHW_NEGATIVE     
-                                 LPS27HHW_BOTH         
+* @param   threshold :pressure threshold trigger_mode：
+                      Trigger mode:  LPS27HHW_NO_THRESHOLD 
+                                     LPS27HHW_POSITIVE     
+                                     LPS27HHW_NEGATIVE     
+                                     LPS27HHW_BOTH         
 * @retval  NULL
 */
     void setInterupt(uint16_t threshold, eLps27hhwPe_t trigger_mode);
 
 /**
-* @brief   配置传感器从fifo中获取数据
+* @brief   Configure sensor to get data from fifo
 * @retval  NULL
 */
     void cfgGainDataByFifo();
