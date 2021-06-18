@@ -49,7 +49,7 @@ void setup() {
   while(1)
   {
     /**
-     *传感器初始化，用作初始化SPI或者初始化I2C，由此时使用的通信方式来决定
+     **Iniatialize the sensor, whether be used to initialize SPI or I2C is up to the current communication way.
      */    
     uint8_t status = LPS27HHW.begin();
     if(status == 0)
@@ -64,7 +64,7 @@ void setup() {
     }
   }
   /**
-    *传感器软件复位
+    *Sensor software reset
     */
   while (LPS27HHW.setReset())
   {
@@ -74,8 +74,8 @@ void setup() {
   Serial.println("reset success!");
 
   /*!
-   * @brief  设置传感器以设置的频率的进行气压值采集
-   *         默认使用 LPS27HHW_75_Hz_LOW_NOISE
+   * @brief  Set the sensor to collect the pressure value at the frequency we set before
+   *         Use LPS27HHW_75_Hz_LOW_NOISE by default
    * @param 
    *         LPS27HHW_POWER_DOWN
    *         LPS27HHW_1_Hz  
@@ -94,7 +94,7 @@ void setup() {
   LPS27HHW.setDataRate();
 
   /*!
-   * @brief  配置MCU从传感器的fifo中获取数据
+   * @brief  Configure MCU to get data in the FIFO of sensor.
    */
   LPS27HHW.cfgGainDataByFifo();
 }
