@@ -117,7 +117,7 @@ void setup() {
    */
   LPS27HHW.setDataRate();
 
-  LPS27HHW.setInterupt(/*阈值/hPA*/500);
+  LPS27HHW.setInterupt(/*Threshold/hPA*/500);
 
   /*！
    * Configure MCU interrupt
